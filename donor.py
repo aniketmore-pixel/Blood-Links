@@ -325,9 +325,6 @@ class donorClass:
             messagebox.showerror("Error", f"Error due to: {str(ex)}", parent=self.root)
 
 
-
-
-
 if __name__=="__main__":
     root=Tk()
     obj=donorClass(root)
