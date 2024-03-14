@@ -1,5 +1,10 @@
 from tkinter import*
 from PIL import Image,ImageTk
+from donor import donorClass
+from hospital import hospitalClass
+from category import categoryClass
+from product import productClass
+from sales import salesClass
 class IMS:
     def __init__(self,root):
         self.root=root
@@ -33,11 +38,11 @@ class IMS:
 
         lbl_menu=Label(LeftMenu,text="Menu",font=("times new roman",20),bg="#009688").pack(side=TOP,fill=X)
 
-        btn_employee=Button(LeftMenu,text="Donor",image=self.icon_side,compound=LEFT,padx=5,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=3,cursor="hand2").pack(side=TOP,fill=X)
-        btn_supplier=Button(LeftMenu,text="Hospitals",image=self.icon_side,compound=LEFT,padx=5,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=3,cursor="hand2").pack(side=TOP,fill=X)
-        btn_category=Button(LeftMenu,text="Blood Grp",image=self.icon_side,compound=LEFT,padx=5,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=3,cursor="hand2").pack(side=TOP,fill=X)
-        btn_product=Button(LeftMenu,text="Product",image=self.icon_side,compound=LEFT,padx=5,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=3,cursor="hand2").pack(side=TOP,fill=X)
-        btn_sales=Button(LeftMenu,text="Sales",image=self.icon_side,compound=LEFT,padx=5,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=3,cursor="hand2").pack(side=TOP,fill=X)
+        btn_employee=Button(LeftMenu,text="Donor",command=self.donor,image=self.icon_side,compound=LEFT,padx=5,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=3,cursor="hand2").pack(side=TOP,fill=X)
+        btn_supplier=Button(LeftMenu,text="Hospitals",command=self.hospital,image=self.icon_side,compound=LEFT,padx=5,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=3,cursor="hand2").pack(side=TOP,fill=X)
+        btn_category=Button(LeftMenu,text="Blood Grp",command=self.category,image=self.icon_side,compound=LEFT,padx=5,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=3,cursor="hand2").pack(side=TOP,fill=X)
+        btn_product=Button(LeftMenu,text="Products",command=self.product,image=self.icon_side,compound=LEFT,padx=5,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=3,cursor="hand2").pack(side=TOP,fill=X)
+        btn_sales=Button(LeftMenu,text="Sales",command=self.sales,image=self.icon_side,compound=LEFT,padx=5,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=3,cursor="hand2").pack(side=TOP,fill=X)
         btn_exit=Button(LeftMenu,text="Exit",image=self.icon_side,compound=LEFT,padx=5,anchor="w",font=("times new roman",20,"bold"),bg="white",bd=3,cursor="hand2").pack(side=TOP,fill=X)
 
          #===content===
@@ -60,10 +65,25 @@ class IMS:
         #===footer===
         lbl_footer=Label(self.root,text="Blood Bank Management System",font=("times new roman",20),bg="#4d636d",fg="white").pack(side=BOTTOM,fill=X)
         
+    def donor(self):
+        self.new_win=Toplevel(self.root) 
+        self.new_obj=donorClass(self.new_win) 
+
+    def hospital(self):
+        self.new_win=Toplevel(self.root) 
+        self.new_obj=hospitalClass(self.new_win)  
        
-
+    def category(self):
+        self.new_win=Toplevel(self.root)
+        self.new_obj=categoryClass(self.new_win)
         
+    def product(self):
+        self.new_win=Toplevel(self.root)
+        self.new_obj=productClass(self.new_win)
 
+    def sales(self):
+        self.new_win=Toplevel(self.root)
+        self.new_obj=salesClass(self.new_win)
 
 root=Tk()
 obj=IMS(root)
