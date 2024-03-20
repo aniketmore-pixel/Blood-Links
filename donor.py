@@ -235,21 +235,20 @@ class donorClass:
 
 
     def delete(self):
-        con=sqlite3.connect(database=r'ims.db')
-        cur=con.cursor()
+        con = sqlite3.connect(database=r'ims.db')
+        cur = con.cursor()
         try:
-            if self.var_donor_id.get()=="":
-                messagebox.showerror("Error","Donor ID Must be required",parent=self.root)
+            if self.var_donor_id.get() == "":
+                messagebox.showerror("Error", "Donor ID must be required", parent=self.root)
             else:
-                op=messagebox.askyesno("Confirm","Do you really want to delete?",parent=self.root)
-                if op==True:
-                   cur.execute("Select * from donor where Do_id=?",(self.var_donor_id.get(),))
-                   con.commit()
-                   messagebox.showinfo("Delete","Donor deleted successfully",parent=self.root)
-                   self.clear()
-
+                op = messagebox.askyesno("Confirm", "Do you really want to delete?", parent=self.root)
+                if op:
+                    cur.execute("DELETE FROM donor WHERE Do_id=?", (self.var_donor_id.get(),))
+                    con.commit()
+                    messagebox.showinfo("Delete", "Donor deleted successfully", parent=self.root)
+                    self.clear()
         except Exception as ex:
-            messagebox.showerror("Error",f"Error due to : {str(ex)}",parent=self.root)
+            messagebox.showerror("Error", f"Error due to : {str(ex)}", parent=self.root)
 
 
     def clear(self):

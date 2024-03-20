@@ -5,6 +5,11 @@ from hospital import hospitalClass
 from category import categoryClass
 from product import productClass
 from sales import salesClass
+import sqlite3
+from tkinter import messagebox
+import os
+import time
+
 class IMS:
     def __init__(self,root):
         self.root=root
@@ -64,7 +69,10 @@ class IMS:
 
         #===footer===
         lbl_footer=Label(self.root,text="Blood Bank Management System",font=("times new roman",20),bg="#4d636d",fg="white").pack(side=BOTTOM,fill=X)
-        
+        self.update_content()
+
+#=============================================================================================================================================================
+
     def donor(self):
         self.new_win=Toplevel(self.root) 
         self.new_obj=donorClass(self.new_win) 
@@ -84,6 +92,37 @@ class IMS:
     def sales(self):
         self.new_win=Toplevel(self.root)
         self.new_obj=salesClass(self.new_win)
+
+    def update_content(self):
+        con = sqlite3.connect(database=r'ims.db')
+        cur = con.cursor()
+        try:
+            cur.execute("SELECT * FROM product")
+            product = cur.fetchall()
+            self.lbl_product.config(text=f'Total Products\n[ {str(len(product))} ]')
+
+            cur.execute("SELECT * FROM hospital")
+            supplier = cur.fetchall()
+            self.lbl_supplier.config(text=f'Total Hospitals\n[ {str(len(supplier))} ]')
+
+            cur.execute("SELECT * FROM category")
+            category = cur.fetchall()
+            self.lbl_category.config(text=f'Total Categories\n[ {str(len(category))} ]')
+
+            cur.execute("SELECT * FROM donor")
+            donor = cur.fetchall()
+            self.lbl_employee.config(text=f'Total Donors\n[ {str(len(donor))} ]')
+            
+            bill = len(os.listdir('bill'))
+            self.lbl_sales.config(text=f'Total Sales [{str(bill)}]')
+
+            time_ = time.strftime("%I:%M:%S")
+            date_ = time.strftime("%d-%m-%Y")
+            self.lbl_clock.config(text=f"Welcome to BLOOD LINKS\t\t Date: {str(date_)}\t\t Time: {str(time_)}")
+            self.lbl_clock.after(200,self.update_content)
+        except Exception as ex:
+            messagebox.showerror("Error",f"Error due to : {str(ex)}",parent=self.root)
+
 
 root=Tk()
 obj=IMS(root)
