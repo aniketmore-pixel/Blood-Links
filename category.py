@@ -1,129 +1,154 @@
-# from tkinter import*
-# from PIL import Image,ImageTk #pip install pillow
-# from tkinter import ttk,messagebox
+# from tkinter import *
+# from tkinter import ttk, messagebox
 # import sqlite3
-# class categoryClass:
-#     def __init__(self,root):
+
+# class BloodGroupWindow:
+#     def __init__(self, root):
 #         self.root = root
 #         self.root.geometry("1100x500+220+130")
-#         self.root.title("Blood Bank Management System")
-#         self.root.config(bg="white")
-#         self.root.focus_force()
-#         #===================Variables======================================
-#         self.var_cat_id=StringVar()
-#         self.var_name=StringVar()
-#         #=======================Title=============================
-#         lbl_title = Label(self.root, text="Manage Blood Groups", font=("goudy old style", 30), bg="#184a45", fg="white",bd=3,relief=RIDGE).pack(side=TOP,fill=X,padx=10,pady=20)
+#         self.root.title("Blood Group Information")
         
-#         lbl_name = Label(self.root, text="Enter Blood Group", font=("goudy old style", 30), bg="white").place(x=50,y=100)
-#         txt_name = Entry(self.root, textvariable=self.var_name, font=("goudy old style", 18), bg="lightyellow").place(x=50,y=170,width=300)
+#         self.total_blood = {
+#             "A+": 0,
+#             "A-": 0,
+#             "B+": 0,
+#             "B-": 0,
+#             "AB+": 0,
+#             "AB-": 0,
+#             "O+": 0,
+#             "O-": 0
+#         }
         
-#         btn_add = Button(self.root, text="ADD",command=self.add, font=("goudy old style", 15), bg="#4caf50", fg="white",cursor="hand2").place(x=360,y=170,width=150,height=30)
-#         btn_delete = Button(self.root, text="Delete",command=self.delete, font=("goudy old style", 15), bg="red", fg="white",cursor="hand2").place(x=520,y=170,width=150,height=30)
-#     #====CategoryDetails================================
-#         cat_frame=Frame(self.root,bd=3,relief=RIDGE)
-#         cat_frame.place(x=700,y=100,width=380,height=100)
+#         self.frame = Frame(self.root, bd=2, relief=RIDGE)
+#         self.frame.pack(fill=BOTH, expand=True)
 
-#         scrolly=Scrollbar(cat_frame,orient=VERTICAL)
-#         scrollx=Scrollbar(cat_frame,orient=HORIZONTAL)
-
-#         self.category_table=ttk.Treeview(cat_frame,columns=("cid","name"),yscrollcommand=scrolly.set,xscrollcommand=scrollx.set)
-#         scrollx.pack(side=BOTTOM,fill=X)
-#         scrolly.pack(side=RIGHT,fill=Y)
-#         scrollx.config(command=self.category_table.xview)
-#         scrolly.config(command=self.category_table.yview)
-
-#         self.category_table.heading("cid",text="C ID")
-#         self.category_table.heading("name",text="Name")
-#         self.category_table["show"]="headings"
-#         self.category_table.column("cid",width=90)
-#         self.category_table.column("name",width=100)
-#         self.category_table.pack(fill=BOTH,expand=1)
-#         self.category_table.bind("<ButtonRelease-1>",self.get_data)
-
-#         #===Images =================================
-#         self.im1=Image.open("images/cat.jpeg")
-#         self.im1=self.im1.resize((500,250),Image.LANCZOS)
-#         self.im1=ImageTk.PhotoImage(self.im1)
-
-#         self.lbl_im1=Label(self.root,image=self.im1,bd=2,relief=RAISED)
-#         self.lbl_im1.place(x=50,y=220)
-
-#         self.im2=Image.open("images/category.jpeg")
-#         self.im2=self.im2.resize((500,250),Image.LANCZOS)
-#         self.im2=ImageTk.PhotoImage(self.im2)
-
-#         self.lbl_im2=Label(self.root,image=self.im2,bd=2,relief=RAISED)
-#         self.lbl_im2.place(x=580,y=220)
+#         self.lbl_title = Label(self.frame, text="Blood Group Information", font=("times new roman", 15, "bold"), bg="white")
+#         self.lbl_title.pack(side=TOP, fill=X)
         
-#         self.show()
-# #=== Functions =================================================================
+#         self.treeview = ttk.Treeview(self.frame, columns=("blood_group", "available_ml"), show="headings", height=8)
+#         self.treeview.pack(fill=BOTH, expand=True)
+#         self.treeview.heading("blood_group", text="Blood Group")
+#         self.treeview.heading("available_ml", text="Available (ml)")
 
-#     def add(self):
-#         con=sqlite3.connect(database='ims.db')
-#         cur=con.cursor()
+#         self.calculate_blood()
+#         self.display_blood_info()
+
+#     def calculate_blood(self):
+#         con = sqlite3.connect(database=r'ims.db')
+#         cur = con.cursor()
+
 #         try:
-#             if self.var_name.get()=="":
-#                 messagebox.showerror("Error","Category name should be required",parent=self.root)
-#             else:
-#                 cur.execute("Select * from category where name=?",(self.var_name.get(),))
-#                 row=cur.fetchone()
-#                 if row!=None:
-#                     messagebox.showerror("Error","Category name already present, try different",parent=self.root)
-#                 else:
-#                     cur.execute("Insert into category (name) values (?)",( self.var_name.get(),))
-#                     con.commit()
-#                     messagebox.showinfo("Success","Category Added Successfully",parent=self.root)
-#                     self.show()
-#         except Exception as ex:
-#             messagebox.showerror("Error",f"Error due to : {str(ex)}",parent=self.root)
+#             cur.execute("SELECT gender, Bld_grp FROM donor")
+#             rows = cur.fetchall()
 
-#     def show(self):
-#             con=sqlite3.connect(database=r'ims.db')
-#             cur=con.cursor()
-#             try:
-#                 cur.execute("select * from category")
-#                 rows=cur.fetchall()
-#                 self.category_table.delete(*self.category_table.get_children())
-#                 for row in rows:
-#                     self.category_table.insert('',END,values=row)
-#             except Exception as ex:
-#                 messagebox.showerror("Error",f"Error due to : {str(ex)}",parent=self.root)
-
-#     def get_data(self,ev):
-#         f=self.category_table.focus()
-#         content=(self.category_table.item(f))
-#         row=content['values']
-#         #print(row)
-#         self.var_cat_id.set(row[0])
-#         self.var_name.set(row[1])
-    
-#     def delete(self):
-#         con=sqlite3.connect(database='ims.db')
-#         cur=con.cursor()
-#         try:
-#             if not self.var_cat_id.get():
-#                 messagebox.showerror("Error","Please select category from the list",parent=self.root)
-#             else:
-#                 cur.execute("Select * from category where cid=?",(self.var_cat_id.get(),))
-#                 row=cur.fetchone()
-#                 if row==None:
-#                     messagebox.showerror("Error","Please try again",parent=self.root)
+#             for row in rows:
+#                 gender, blood_group = row
+#                 if gender.lower() == "male":
+#                     donation_amount = 400
+#                 elif gender.lower() == "female":
+#                     donation_amount = 350
 #                 else:
-#                     op=messagebox.askyesno("Confirm","Do you really want to delete? ",parent=self.root)
-#                     if op==True:
-#                         cur.execute("delete from category where cid=?",(self.var_cat_id.get(),))
-#                         con.commit()
-#                         messagebox.showinfo("Delete","Category deleted successfully",parent=self.root)
-#                         self.show()
-#                         self.var_cat_id.set("")
-#                         self.var_name.set("")
+#                     # handle other genders if needed
+#                     continue
+
+#                 self.total_blood[blood_group] += donation_amount
+
 #         except Exception as ex:
-#             messagebox.showerror("Error",f"Error due to : {str(ex)}",parent=self.root)
+#             messagebox.showerror("Error", f"Error calculating blood: {str(ex)}", parent=self.root)
+
+#     def display_blood_info(self):
+#         for blood_group, total_ml in self.total_blood.items():
+#             self.treeview.insert("", END, values=(blood_group, total_ml))
+
 
 # if __name__ == "__main__":
-#     root=Tk()
-#     obj=categoryClass(root)
+#     root = Tk()
+#     app = BloodGroupWindow(root)
+#     root.mainloop()
+
+# from tkinter import *
+
+# class BloodGroupWindow:
+#     def __init__(self, root):
+#         self.root = root
+#         self.root.geometry("1100x500+220+130")
+#         self.root.title("Blood Group Information")
+
+#         self.total_blood = {
+#             "A+": 0,
+#             "A-": 0,
+#             "B+": 0,
+#             "B-": 0,
+#             "AB+": 0,
+#             "AB-": 0,
+#             "O+": 0,
+#             "O-": 0
+#         }
+
+#         self.frame = Frame(self.root, bd=2, relief=RIDGE)
+#         self.frame.pack(fill=BOTH, expand=True, padx=20, pady=20)  # Added padding to center the frame
+
+#         self.lbl_title = Label(self.frame, text="Blood Group Data", font=("Arial", 24, "bold"), bg="white")
+#         self.lbl_title.grid(row=0, column=0, columnspan=4, pady=(0, 20))  # Span title label across all columns
+
+#         # Create labels for each blood group
+#         self.create_blood_group_labels()
+
+#         # Center the frame in the window
+#         self.center_window()
+
+#     def create_blood_group_labels(self):
+#         # Labels for each blood group
+#         self.lbl_Apos = Label(self.frame, text="Total A+ (ml)\n[ 0 ]", bd=5, relief=RIDGE, bg="#FF5733", fg="white",
+#                               font=("goudy old style", 20, "bold"))
+#         self.lbl_Apos.place(x=50, y=90, height=150, width=200)
+
+#         self.lbl_Aneg = Label(self.frame, text="Total A- (ml)\n[ 0 ]", bd=5, relief=RIDGE, bg="#FFCCCB", fg="white",
+#                               font=("goudy old style", 20, "bold"))
+#         self.lbl_Aneg.place(x=300, y=90, height=150, width=200)
+
+#         self.lbl_Bpos = Label(self.frame, text="Total B+ (ml)\n[ 0 ]", bd=5, relief=RIDGE, bg="#3385FF", fg="white",
+#                               font=("goudy old style", 20, "bold"))
+#         self.lbl_Bpos.place(x=550, y=90, height=150, width=200)
+
+#         self.lbl_Bneg = Label(self.frame, text="Total B- (ml)\n[ 0 ]", bd=5, relief=RIDGE, bg="#7FB3D5", fg="white",
+#                               font=("goudy old style", 20, "bold"))
+#         self.lbl_Bneg.place(x=800, y=90, height=150, width=200)
+
+#         self.lbl_ABpos = Label(self.frame, text="Total AB+ (ml)\n[ 0 ]", bd=5, relief=RIDGE, bg="#C0C0C0", fg="white",
+#                                font=("goudy old style", 20, "bold"))
+#         self.lbl_ABpos.place(x=50, y=250, height=150, width=200)
+
+#         self.lbl_ABneg = Label(self.frame, text="Total AB- (ml)\n[ 0 ]", bd=5, relief=RIDGE, bg="#7F8C8D", fg="white",
+#                                font=("goudy old style", 20, "bold"))
+#         self.lbl_ABneg.place(x=300, y=250, height=150, width=200)
+
+#         self.lbl_Opos = Label(self.frame, text="Total O+ (ml)\n[ 0 ]", bd=5, relief=RIDGE, bg="#FFCC99", fg="white",
+#                               font=("goudy old style", 20, "bold"))
+#         self.lbl_Opos.place(x=550, y=250, height=150, width=200)
+
+#         self.lbl_Oneg = Label(self.frame, text="Total O- (ml)\n[ 0 ]", bd=5, relief=RIDGE, bg="#D35400", fg="white",
+#                               font=("goudy old style", 20, "bold"))
+#         self.lbl_Oneg.place(x=800, y=250, height=150, width=200)
+
+#     def center_window(self):
+#         # Get the screen width and height
+#         screen_width = self.root.winfo_screenwidth()
+#         screen_height = self.root.winfo_screenheight()
+
+#         # Calculate x and y coordinates to center the window
+#         x = (screen_width - 1100) // 2
+#         y = (screen_height - 500) // 2
+
+#         # Set the window position
+#         #self.root.geometry(f"1100x500+{x}+{y}")
+
+#         title_width = self.root.winfo_reqwidth()
+#         self.root.title(" " * ((1100 - title_width) // 12) + "Blood Group Data")
+
+# if __name__ == "__main__":
+#     root = Tk()
+#     app = BloodGroupWindow(root)
 #     root.mainloop()
 
 from tkinter import *
@@ -133,9 +158,9 @@ import sqlite3
 class BloodGroupWindow:
     def __init__(self, root):
         self.root = root
-        self.root.geometry("400x300+400+150")
+        self.root.geometry("1100x500+220+130")
         self.root.title("Blood Group Information")
-        
+
         self.total_blood = {
             "A+": 0,
             "A-": 0,
@@ -146,22 +171,26 @@ class BloodGroupWindow:
             "O+": 0,
             "O-": 0
         }
-        
+
         self.frame = Frame(self.root, bd=2, relief=RIDGE)
-        self.frame.pack(fill=BOTH, expand=True)
+        self.frame.pack(fill=BOTH, expand=True, padx=20, pady=20)  # Added padding to center the frame
 
-        self.lbl_title = Label(self.frame, text="Blood Group Information", font=("times new roman", 15, "bold"), bg="white")
-        self.lbl_title.pack(side=TOP, fill=X)
-        
-        self.treeview = ttk.Treeview(self.frame, columns=("blood_group", "available_ml"), show="headings", height=8)
-        self.treeview.pack(fill=BOTH, expand=True)
-        self.treeview.heading("blood_group", text="Blood Group")
-        self.treeview.heading("available_ml", text="Available (ml)")
+        self.lbl_title = Label(self.frame, text="Blood Group Data", font=("Arial", 24, "bold"), bg="white")
+        self.lbl_title.grid(row=0, column=0, columnspan=4, pady=(0, 20))  # Span title label across all columns
 
+        # Create labels for each blood group
+        self.create_blood_group_labels()
+
+        # Call the method to calculate blood and update labels
         self.calculate_blood()
-        self.display_blood_info()
+        self.update_labels()
+
+        # Center the frame in the window
+        self.center_window()
 
     def calculate_blood(self):
+        # Simulating the database query to calculate blood
+        # Here we just manually set some values for demonstration
         con = sqlite3.connect(database=r'ims.db')
         cur = con.cursor()
 
@@ -178,18 +207,47 @@ class BloodGroupWindow:
                 else:
                     # handle other genders if needed
                     continue
-
+    
                 self.total_blood[blood_group] += donation_amount
-
         except Exception as ex:
             messagebox.showerror("Error", f"Error calculating blood: {str(ex)}", parent=self.root)
 
-    def display_blood_info(self):
-        for blood_group, total_ml in self.total_blood.items():
-            self.treeview.insert("", END, values=(blood_group, total_ml))
+        
 
+    def create_blood_group_labels(self):
+        # Labels for each blood group
+        self.labels = {}
+        positions = [(50, 90), (300, 90), (550, 90), (800, 90), (50, 250), (300, 250), (550, 250), (800, 250)]
+        colors = ["#FF5733", "#FFCCCB", "#3385FF", "#7FB3D5", "#C0C0C0", "#7F8C8D", "#FFCC99", "#D35400"]
+        for blood_group, position, color in zip(self.total_blood.keys(), positions, colors):
+            label = Label(self.frame, text=f"Total {blood_group} (ml)\n[ {self.total_blood[blood_group]} ]",
+                          bd=5, relief=RIDGE, bg=color, fg="white", font=("goudy old style", 20, "bold"))
+            label.place(x=position[0], y=position[1], height=150, width=200)
+            self.labels[blood_group] = label
+
+    def update_labels(self):
+        # Update labels with calculated blood data
+        for blood_group, label in self.labels.items():
+            label.config(text=f"Total {blood_group} (ml)\n[ {self.total_blood[blood_group]} ]")
+
+    def center_window(self):
+        # Get the screen width and height
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        # Calculate x and y coordinates to center the window
+        x = (screen_width - 1100) // 2
+        y = (screen_height - 500) // 2
+
+        # Set the window position
+        #self.root.geometry(f"1100x500+{x}+{y}")
+
+        title_width = self.root.winfo_reqwidth()
+        self.root.title(" " * ((1100 - title_width) // 12) + "Blood Group Data")
 
 if __name__ == "__main__":
     root = Tk()
     app = BloodGroupWindow(root)
     root.mainloop()
+
+
