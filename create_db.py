@@ -8,5 +8,10 @@ def create_db():
     cur.execute("CREATE TABLE IF NOT EXISTS hospital(invoice INTEGER PRIMARY KEY AUTOINCREMENT ,name text,contact text,email text,location text,address text)")
     con.commit()
 
+    cur.execute("CREATE TABLE IF NOT EXISTS category (cid INTEGER PRIMARY KEY AUTOINCREMENT,name text)")
+    con.commit()
+
+    cur.execute("CREATE TABLE IF NOT EXISTS product(P_Id INTEGER PRIMARY KEY AUTOINCREMENT ,Supplier text,Category text,Name text,Price text,Qty text,Status text)")
+    con.commit()
 
 create_db()
