@@ -9,6 +9,11 @@ from category import BloodGroupWindow
 from product import productClass
 from sales import salesClass
 import sqlite3
+from tkinter import messagebox
+import os
+import time
+
+import sqlite3
 class IMS:
     def __init__(self,root):
         self.root=root
@@ -67,6 +72,11 @@ class IMS:
 
 
         #===footer===
+        lbl_footer=Label(self.root,text="Blood Bank Management System",font=("times new roman",20),bg="#4d636d",fg="white").pack(side=BOTTOM,fill=X)
+        self.update_content()
+
+#=============================================================================================================================================================
+
         lbl_footer=Label(self.root,text="Blood Bank Management System",font=("times new roman",20),bg="#cdb3ba",fg="#7a0a0a").pack(side=BOTTOM,fill=X)
         self.update_content()
         
