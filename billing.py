@@ -473,9 +473,10 @@ Net Pay\t\t\tRs.{self.net_pay}
             messagebox.showerror('Print','Please generate bill to print the receipt.', parent = self.root)
             
 
-root=Tk()
-obj=BillClass(root)
-root.mainloop() 
+if __name__ == '__main__':
+    root=Tk()
+    obj=BillClass(root)
+    root.mainloop() 
 
 
 
