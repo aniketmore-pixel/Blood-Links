@@ -134,7 +134,3 @@
 > *Add screenshots here for GUI demonstration (Hospital, Donor List, Sales, Supplier Management).*
 
 ---
-
-## License
-
-This project is licensed under the MIT License.  
