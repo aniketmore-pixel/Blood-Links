@@ -84,7 +84,7 @@
 
 ## Usage
 
-- Start the modules individually using Python.
+- Start the app by running dashboard.py.
 - Use the GUI to add, update, delete, or search records.
 - Scrollable tables and entry forms allow quick navigation and management.
 - Customer bills are saved as text files in the `bill/` directory.
