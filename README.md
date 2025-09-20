@@ -4,15 +4,19 @@
 
 ---
 
-## Table of Contents
-- [Features](#features)  
-- [Technologies Used](#technologies-used)  
-- [Modules](#modules)  
-- [Setup & Installation](#setup--installation)  
-- [Usage](#usage)  
-- [Database Structure](#database-structure)  
-- [Screenshots](#screenshots)  
-- [License](#license)  
+## Screenshots
+
+> <img width="957" height="539" alt="image" src="https://github.com/user-attachments/assets/97b5e619-ea03-4541-9d16-9ef07ee54099" />
+> <img width="825" height="399" alt="image" src="https://github.com/user-attachments/assets/a397d136-bb6a-47b5-ba98-f750021afb26" />
+> <img width="826" height="419" alt="image" src="https://github.com/user-attachments/assets/dc3abb15-b6c6-41a3-b04b-c790961299c1" />
+> <img width="960" height="540" alt="image" src="https://github.com/user-attachments/assets/76ea8016-1002-477b-a7a3-6882c9c9c576" />
+<img width="602" height="401" alt="image" src="https://github.com/user-attachments/assets/f0013af1-5719-4876-b939-27ce212e68c8" />
+
+
+---
+## Demo
+
+
 
 ---
 
@@ -129,8 +133,4 @@
 
 ---
 
-## Screenshots
 
-> *Add screenshots here for GUI demonstration (Hospital, Donor List, Sales, Supplier Management).*
-
----
