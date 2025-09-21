@@ -17,7 +17,6 @@
 ## Demo
 Watch this demo video -> https://drive.google.com/file/d/1ThBsLCECEZQ43Arom3PQDCpn9mvv5Zna/view?usp=sharing
 
-
 ---
 
 ## Features
